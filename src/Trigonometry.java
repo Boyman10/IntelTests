@@ -16,7 +16,7 @@ class Trigonometry {
         String LAT = "20.20";
 
         // User position :
-        Position defaultPos = new Position("0;default;here;nophone;40.0;20.0");
+        Position defaultPos = new Position("0;default;here;nophone;3.879483;43.608177");
 
         // Number of items :
         int N = 2;
@@ -34,6 +34,14 @@ class Trigonometry {
         // To debug: System.err.println("Debug messages...");
 
         System.out.println("answer");
+
+
+        /**
+         * Exemple of use DISTANCE calculation
+         */
+        Position position1 = new Position("1;Maison de la Prevention Sante;6 rue Maguelone 340000 Montpellier;;3,87952263361082;43,6071285339217");
+
+        System.out.println("Distance " + getDistance(defaultPos,position1));
     }
 
 
@@ -43,14 +51,14 @@ class Trigonometry {
      * @param two
      * @return
      */
-    public static Float getDistance(Position one, Position two) {
+    public static double getDistance(Position one, Position two) {
 
-        Float distance;
+        double distance;
 
-        Double x = (two.getLongPos() - one.getLongPos()) * (Math.cos((one.getLatPos() + two.getLatPos())) / 2.0);
-        Float y = two.getLatPos() - one.getLongPos();
+        double x = (two.getLongPos() - one.getLongPos()) * (Math.cos((one.getLatPos() + two.getLatPos())) / 2.0);
+        double y = two.getLatPos() - one.getLongPos();
 
-        distance = (float)Math.sqrt((float)(Math.pow(x,2)) + (float)Math.pow(y,2)) * 6371;
+        distance = (double)Math.sqrt((double)(Math.pow(x,2)) + (double)Math.pow(y,2)) * 6371;
 
         return distance;
     }
@@ -78,22 +86,22 @@ class Position {
     private String name;
     private String address;
     private String phone;
-    private float longPos;
-    private float latPos;
+    private double longPos;
+    private double latPos;
 
-    public float getLongPos() {
+    public double getLongPos() {
         return longPos;
     }
 
-    public void setLongPos(float longPos) {
+    public void setLongPos(double longPos) {
         this.longPos = longPos;
     }
 
-    public float getLatPos() {
+    public double getLatPos() {
         return latPos;
     }
 
-    public void setLatPos(float latPos) {
+    public void setLatPos(double latPos) {
         this.latPos = latPos;
     }
 
@@ -108,8 +116,8 @@ class Position {
             this.name = data[1];
             this.address = data[2];
             this.phone = data[3];
-            this.longPos = Float.parseFloat(data[4]);
-            this.latPos = Float.parseFloat(data[5]);
+            this.longPos = Math.PI * Float.parseFloat(data[4]) / 180;
+            this.latPos = Math.PI * Float.parseFloat(data[5]) / 180.0;
 
         } catch(Exception e) {
             System.err.println(e + allData);
