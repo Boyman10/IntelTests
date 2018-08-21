@@ -18,7 +18,7 @@ public class BfsTest {
      * @return
      */
     @Test
-    public List<Integer> bfsRoutesTest() {
+    public void bfsRoutesTest() {
 
         // Our example graph
         bfs = new Bfs(6);
@@ -34,6 +34,12 @@ public class BfsTest {
         // our expected result :
         List<Integer> route = new ArrayList<>();
         route.add(sourceNode);
+
+        route.add(0);
+        route.add(0);
+        route.add(5);
+        route.add(5);
+        route.add(0);
 
         assertEquals(route,bfs.bfsRoutes(sourceNode));
 
