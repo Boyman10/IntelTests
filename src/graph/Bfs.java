@@ -14,7 +14,7 @@ import java.util.List;
  * @see https://en.wikipedia.org/wiki/Breadth-first_search
  */
 public class Bfs {
-
+•
     /**
      * Properties
      */
@@ -45,7 +45,7 @@ public class Bfs {
      * Algorithm
      * given source node, provide the different routes from it
      */
-    public List<Integer> bfs(int sourceNode) {
+    public List<Integer> bfsRoutes(int sourceNode) {
 
         // Mark all the vertices as not visited(By default
         // set as false)
