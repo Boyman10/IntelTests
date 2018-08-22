@@ -1,9 +1,6 @@
 package graph;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 /**
  * Breadth First Search algorihtm for a graph
@@ -33,6 +30,7 @@ public class Bfs {
 
     /**
      * Adding a node to the graph
+     *
      * @param vertices
      */
     public void addVertice(List<Integer> vertices) {
@@ -47,6 +45,8 @@ public class Bfs {
      */
     public List<Integer> bfsRoutes(int sourceNode) {
 
+        List<Integer> routes = new ArrayList<>();  // size of graph
+
         // Mark all the vertices as not visited(By default
         // set as false)
         boolean visited[] = new boolean[V];
@@ -55,11 +55,10 @@ public class Bfs {
         LinkedList<Integer> queue = new LinkedList<Integer>();
 
         // Mark the current node as visited and enqueue it
-        visited[sourceNode]=true;
+        visited[sourceNode] = true;
         queue.add(sourceNode);
 
-        while (queue.size() != 0)
-        {
+        while (queue.size() != 0) {
             // Dequeue a vertex from queue and print it
             sourceNode = queue.poll();
 
@@ -69,16 +68,50 @@ public class Bfs {
             // If a adjacent has not been visited, then mark it
             // visited and enqueue it
             Iterator<Integer> i = graph.get(sourceNode).listIterator();
-            while (i.hasNext())
-            {
+            while (i.hasNext()) {
                 int n = i.next();
-                if (!visited[n])
-                {
+                if (!visited[n]) {
                     visited[n] = true;
                     queue.add(n);
+
+                    routes.add(sourceNode);
+                    System.out.println("N : " + n + " node " + sourceNode); // @TODO change to result type
+
                 }
             }
         }
+
+        return routes;
+    }
+
+
+    /**
+     * Given sourceNode, retrieves the route table so we can get the shortest path from any the sourceNode to any vertice
+     *
+     * @param int sourceNode
+     * @return routes
+     */
+    public List<Integer> routeMap(int sourceNode) {
+
+        List<Integer> routes = new ArrayList<>();  // size of graph
+
+        // insert first node and shortest path to it :
+        Hashtable queue = new Hashtable();
+        queue.put(sourceNode,Arrays.asList(sourceNode));
+
+        // Tracking the visited vertices
+        ArrayList<Integer> visited = new ArrayList<>();
+        // Mark the sourceNode as Visited
+        visited.add(sourceNode);
+
+        // let's now explore the graph :
+        Enumeration e = queue.elements();
+        while(e.hasMoreElements()) {
+
+
+            System.out.println(e.nextElement());
+        }
+
 
         return null;
     }
