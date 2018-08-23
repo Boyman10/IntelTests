@@ -1,5 +1,6 @@
 package graph;
 
+import java.lang.reflect.Array;
 import java.util.*;
 
 /**
@@ -72,12 +73,56 @@ public class Bfs {
                     routes.put(node,elt);
                     queue.add(node);
                     visited.add(node);
-                    System.out.println("new node added to stack ; " + node);
+                  //  System.out.println("new node added to stack ; " + node);
                 }
             }
 
         }
 
         return routes;
+    }
+
+    /**
+     * Getting all routes for all nodes of the graph
+     * @return
+     */
+    public ArrayList<Hashtable> routesMap() {
+
+        ArrayList<Hashtable> routes = new ArrayList<>();
+
+        // our graph does not implement hashtable so we can simply use the size and matching routes with index :
+
+        for (int i = 0; i< V;i++) {
+            routes.add(this.routeMap(i));
+        }
+
+        return routes;
+    }
+
+    /**
+     * Retrieving the shortest path from a node to another one :
+     * @param int srcNode, int destNode
+     * @return path
+     */
+    public ArrayList<Integer> shortestPath(int srcNode, int destNode) {
+
+        ArrayList<Integer> path = new ArrayList<>();
+
+        // Get the routing table of the srcNode :
+        Hashtable routing =  routeMap(srcNode);
+
+        // Now the shortest path :
+        int tmp = destNode;
+        path.add(tmp);
+        
+        while (tmp != srcNode) {
+            tmp = (int)routing.get(tmp);
+            path.add(tmp);
+        }
+
+        // reverse it
+        Collections.reverse(path);
+
+        return path;
     }
 }
