@@ -38,81 +38,46 @@ public class Bfs {
         graph.add(vertices);
     }
 
-
-    /**
-     * Algorithm
-     * given source node, provide the different routes from it
-     */
-    public List<Integer> bfsRoutes(int sourceNode) {
-
-        List<Integer> routes = new ArrayList<>();  // size of graph
-
-        // Mark all the vertices as not visited(By default
-        // set as false)
-        boolean visited[] = new boolean[V];
-
-        // Create a queue for BFS
-        LinkedList<Integer> queue = new LinkedList<Integer>();
-
-        // Mark the current node as visited and enqueue it
-        visited[sourceNode] = true;
-        queue.add(sourceNode);
-
-        while (queue.size() != 0) {
-            // Dequeue a vertex from queue and print it
-            sourceNode = queue.poll();
-
-            System.out.print(sourceNode + " "); // @TODO change to result type
-
-            // Get all adjacent vertices of the dequeued vertex s
-            // If a adjacent has not been visited, then mark it
-            // visited and enqueue it
-            Iterator<Integer> i = graph.get(sourceNode).listIterator();
-            while (i.hasNext()) {
-                int n = i.next();
-                if (!visited[n]) {
-                    visited[n] = true;
-                    queue.add(n);
-
-                    routes.add(sourceNode);
-                    System.out.println("N : " + n + " node " + sourceNode); // @TODO change to result type
-
-                }
-            }
-        }
-
-        return routes;
-    }
-
-
     /**
      * Given sourceNode, retrieves the route table so we can get the shortest path from any the sourceNode to any vertice
      *
      * @param int sourceNode
      * @return routes
      */
-    public List<Integer> routeMap(int sourceNode) {
+    public Hashtable routeMap(int sourceNode) {
 
-        List<Integer> routes = new ArrayList<>();  // size of graph
+        LinkedList<Integer> queue = new LinkedList<>();  // size of graph
 
-        // insert first node and shortest path to it :
-        Hashtable queue = new Hashtable();
-        queue.put(sourceNode,Arrays.asList(sourceNode));
+        // the thing we need to build here
+        Hashtable routes = new Hashtable();
+        routes.put(sourceNode,sourceNode);
+
+        // insert first node
+        queue.add(sourceNode);
 
         // Tracking the visited vertices
         ArrayList<Integer> visited = new ArrayList<>();
-        // Mark the sourceNode as Visited
-        visited.add(sourceNode);
 
         // let's now explore the graph :
-        Enumeration e = queue.elements();
-        while(e.hasMoreElements()) {
+        while(!queue.isEmpty()) {
 
+            Integer elt = queue.poll(); // retrieves and removes the head of the queue FIFO mode
+            // Mark the current node as Visited
+            visited.add(elt);
 
-            System.out.println(e.nextElement());
+            // loop throught neighbors of current node :
+            for(Integer node : graph.get(elt)) {
+
+                if (!visited.contains(node)) {
+                    routes.put(node,elt);
+                    queue.add(node);
+                    visited.add(node);
+                    System.out.println("new node added to stack ; " + node);
+                }
+            }
+
         }
 
-
-        return null;
+        return routes;
     }
 }

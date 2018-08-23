@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Hashtable;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -17,8 +18,9 @@ public class BfsTest {
      *  [[1, 2, 5], [0, 2, 5], [0, 1], [4, 5], [3, 5], [0, 1, 3, 4]]
      * @return
      */
+
     @Test
-    public void bfsRoutesTest() {
+    void routeMapTest() {
 
         // Our example graph
         bfs = new Bfs(6);
@@ -32,16 +34,16 @@ public class BfsTest {
         // The source node :
         int sourceNode = 1;
         // our expected result :
-        List<Integer> route = new ArrayList<>();
-        route.add(sourceNode);
+        Hashtable route = new Hashtable();
+        // expecting [null ot soutceNode, 0, 0, 5, 5, 0].
+        route.put(0,1);
 
-        route.add(0);
-        route.add(0);
-        route.add(5);
-        route.add(5);
-        route.add(0);
+        route.put(1,1);
+        route.put(2,1);
+        route.put(3,5);
+        route.put(4,5);
+        route.put(5,1);
 
-        assertEquals(route,bfs.bfsRoutes(sourceNode));
-
+        assertEquals(route,bfs.routeMap(sourceNode));
     }
 }
