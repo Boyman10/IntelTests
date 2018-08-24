@@ -27,6 +27,7 @@ public class Graph {
      */
     private int V;   // No. of vertices
     private int L; // Nb of links
+    private ArrayList<Integer> exits;
 
     @Deprecated
     private List<List<Integer>> graphV1; //Adjacency Lists - ex : [[1, 2, 5], [0, 2, 5], [0, 1], [4, 5], [3, 5], [0, 1, 3, 4]]
@@ -43,6 +44,7 @@ public class Graph {
 
         if (nbNodes >= MIN_NODES && nbNodes <= MAX_NODES && nbLinks <= MAX_LINKS
                 && nbLinks >= MIN_LINKS && nbExits >= MIN_EXITS && nbExits <= MAX_EXITS) {
+            exits = new ArrayList<>();
 
             graphV1 = new ArrayList<>();
             graphV2 = new Hashtable<>();
