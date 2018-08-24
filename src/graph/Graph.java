@@ -64,18 +64,24 @@ public class Graph {
 
         if (srcNode < V && srcNode >= 0 && nextNode < V && nextNode >= 0) {
 
-
-            ArrayList<Integer> nodes ;
+            ArrayList<Integer> nodes = new ArrayList<>();
 
             try {
+                System.out.println("Getting current array of src Node : " + srcNode);
+
                 nodes =  (ArrayList<Integer>) graphV1.get(srcNode);
+
+                // Adding dest to the array
+                nodes.add(nextNode);
+
             } catch (IndexOutOfBoundsException e) {
-                nodes = new ArrayList<>();
+                System.out.println("initializing nodes array for src node : " + srcNode);
+                nodes.add(nextNode);
+                graphV1.add(srcNode, nodes);
+                return;
             }
 
-            // Adding dest to the array
-            nodes.add(nextNode);
-            graphV1.add(srcNode, nodes);
+            graphV1.set(srcNode, nodes);
 
         } else {
             System.err.println("OUt of bound Node!!");
