@@ -136,4 +136,9 @@ public class Graph {
         return graphV1;
     }
 
+    public void addExit(int exit) {
+
+        if (exit >= 0 && exit < V)
+            exits.add(exit);
+    }
 }
