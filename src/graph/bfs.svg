@@ -27,16 +27,16 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="0.98994949"
-     inkscape:cx="331.86522"
-     inkscape:cy="757.92035"
+     inkscape:cx="411.04477"
+     inkscape:cy="798.32645"
      inkscape:document-units="mm"
      inkscape:current-layer="layer1"
      showgrid="false"
-     inkscape:window-width="1920"
-     inkscape:window-height="1017"
-     inkscape:window-x="-8"
-     inkscape:window-y="-8"
-     inkscape:window-maximized="1" />
+     inkscape:window-width="1052"
+     inkscape:window-height="823"
+     inkscape:window-x="10"
+     inkscape:window-y="19"
+     inkscape:window-maximized="0" />
   <metadata
      id="metadata5">
     <rdf:RDF>
@@ -245,7 +245,9 @@ IhLF/wMA8BR72lvRGgAAAABJRU5ErkJggg==
          x="3.5907741"
          y="73.427078"
          style="stroke-width:0.26458332"
-         id="tspan4533">- we add the node to the queue with its path to it (ie: itself) &gt; Hashtable</tspan><tspan
+         id="tspan4533">- we add the node to the queue <tspan
+   style="fill:#9dac93"
+   id="tspan4565">with its path to it (ie: itself)</tspan> &gt; Hashtable</tspan><tspan
          sodipodi:role="line"
          x="3.5907741"
          y="78.71875"
