@@ -125,4 +125,8 @@ public class Bfs {
 
         return path;
     }
+
+    public void setGraph(List<List<Integer>> graph) {
+        this.graph = graph;
+    }
 }

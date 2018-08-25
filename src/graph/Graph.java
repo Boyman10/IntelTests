@@ -141,4 +141,8 @@ public class Graph {
         if (exit >= 0 && exit < V)
             exits.add(exit);
     }
+
+    public ArrayList<Integer> getExits() {
+        return exits;
+    }
 }
