@@ -1,5 +1,6 @@
 package algo;
 
+import algo.binarysearch.GameBS;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;

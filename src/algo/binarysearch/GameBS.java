@@ -1,7 +1,7 @@
-package algo;
+package algo.binarysearch;
 
 /**
- * A game implementing the BinarySearch Algorithm
+ * A game implementing the binarysearch Algorithm
  */
 public class GameBS {
 

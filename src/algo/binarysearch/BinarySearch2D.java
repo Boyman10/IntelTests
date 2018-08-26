@@ -1,4 +1,4 @@
-package algo;
+package algo.binarysearch;
 
 /**
  * Binary search algorithm - non recursive - just 1 move at a time
