@@ -43,6 +43,8 @@ class BinarySearchTest {
         int Y0 = in.nextInt();
 
         // game loop
+        System.setIn(new ByteArrayInputStream("UR\n".getBytes()));
+        in = new Scanner(System.in);
         while (true) {
             String bombDir = in.next(); // the direction of the bombs from batman's current location (U, UR, R, DR, D, DL, L or UL)
 
@@ -56,5 +58,5 @@ class BinarySearchTest {
     }
 
 
-    }
+
 }

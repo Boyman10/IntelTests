@@ -16,6 +16,8 @@ public class GameBS {
     private int width, height;
     private int position;
 
+    private int[] currentArray; // 1D array
+
     public GameBS(int W, int H, int N, int X0, int Y0) {
 
         if (W >= MIN_WIDTH && W <= MAX_WIDTH && H >= MIN_HEIGHT && H <= MAX_HEIGHT && N >= MIN_JUMPS && N <= MAX_JUMPS) {
@@ -24,8 +26,13 @@ public class GameBS {
             this.width = W;
             this.height = H;
 
-            // Transform 2D position into 1D :
+            // initialize array :
+            currentArray = new int[W*H];
+            for (int i = 0; i < W*H; i++)
+                currentArray[i] = i;
 
+            // Transform 2D position into 1D :
+            this.position = getFrom2D(X0,Y0);
 
         } else
             throw new RuntimeException("Out of bounds entries!!");
@@ -57,4 +64,12 @@ public class GameBS {
         return pos;
     }
 
+    /**
+     * Based on clue, cut the array to search for the object
+     * @param clue
+     */
+    public void cutArray(String clue) {
+
+
+    }
 }
