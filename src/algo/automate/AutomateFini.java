@@ -25,14 +25,15 @@ public class AutomateFini {
     private static final Hashtable<Character,Byte[]> directionMove = new Hashtable<>();
 
     // Breaking bad :
-    private static final char beer = 'B'; // Breaking definitively X
+    private static final char BEER = 'B'; // Breaking definitively X
 
-    private static final char teleport = 'T'; // jump from one T to the other one
+    private static final char TELEPORT = 'T'; // jump from one T to the other one
 
     //******** STATES ***********//
     private boolean breaker = false;
     private boolean inverted = false;
-    private char currentDirection = 'S'; // initial default direction
+    private byte indexCurrentDirection = 0; // initial default direction
+    private char currentDirection = 'S';
 
     //**********MAP**************//
     private char[][] map; // the map where Bender goes
@@ -90,13 +91,58 @@ public class AutomateFini {
 
             if (here == OBSTACLES[1] && breaker)
                 map[position[0]][position[1]] = ' '; // remove the obstacle
+            else if (here == INVERTER)
+                if (inverted) {
+                    inverted = false;
+                    indexCurrentDirection = 0;
+                    currentDirection = DIRECTIONS[0];
+                }
+                else {
+                    inverted = true;
+                    indexCurrentDirection = 0;
+                    currentDirection = INV_DIRECTIONS[0];
+                }
+            else if (here == BEER)
+                if (breaker)
+                    breaker = false;
+                else
+                    breaker = true;
+            else if (here == TELEPORT)
+                position = getTeleportGate();
+            else if (here == INIT)
+                return LOOP; // case back to init
+            else if (here != ' ')
+                currentDirection =  map[position[0]][position[1]]; // either S N E W
+        }
 
+        return recursiveMove();
+    }
+
+
+    private String recursiveMove() {
+
+        // Take action now :
+        // default one first
+        byte[] xy = new byte[2];
+        xy[0] = (byte) (position[0] + (byte)directionMove.get(currentDirection)[0]);
+        xy[1] = (byte) (position[1] + directionMove.get(currentDirection)[1]);
+        char here = nextElement(xy);
+
+        if (here != OBSTACLES[0] || (here == OBSTACLES[1] && breaker))
+            return charToMove(currentDirection);
+        else {
+
+            if (inverted)
+                currentDirection = INV_DIRECTIONS[indexCurrentDirection++];
+            else
+                currentDirection = DIRECTIONS[indexCurrentDirection++];
+
+            return recursiveMove();
 
         }
 
-
-        return charToMove(currentDirection);
     }
+
 
     /**
      * Given a char, output the string
@@ -143,6 +189,26 @@ public class AutomateFini {
         return map[pos[0]][pos[1]];
     }
 
+
+    /**
+     * Getting mirror element given position
+     * @return the position of the Teleport element
+     */
+    private byte[] getTeleportGate() {
+
+        byte[] pos = new byte[2];
+
+        for(byte i = 0;i < map.length;i++) {
+            for(byte j=0;j < map[i].length;j++)
+                if(map[i][j] == TELEPORT && i != position[0] && j != position[1]) {
+                    pos[0] = i;
+                    pos[1] = j;
+                    return pos;
+                }
+        }
+
+        return null;
+    }
 }
 
 
