@@ -34,12 +34,27 @@ public class GameBS {
 
     /**
      * Transform a 2D position into a 1D one
-     * @param x
-     * @param y
-     * @return
+     * @param x 2
+     * @param y 5
+     * @return 52
      */
     public int getFrom2D(int x, int y) {
 
-        return 0;
+        return (x + y * this.width);
     }
+
+    /**
+     * Transform a 1D position into a 2D one
+     * @param position 52
+     * @return [2,5]
+     */
+    public int[] setTo2D(int position) {
+
+        int pos[] = new int[2];
+        pos[0] = position % this.width; // ex : 2
+        pos[1] = position / this.height;
+
+        return pos;
+    }
+
 }
