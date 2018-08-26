@@ -9,7 +9,7 @@ import java.util.Hashtable;
 public class AutomateFini {
 
     // case impossible to get to the target :
-    private static String LOOP = "LOOP";
+    public static final String LOOP = "LOOP";
 
     private static final char INIT = '@'; // start
     private static final char END = '$'; // end of route
@@ -211,4 +211,33 @@ public class AutomateFini {
     }
 }
 
+/*
+class Solution {
 
+    public static void main(String args[]) {
+        Scanner in = new Scanner(System.in);
+        int L = in.nextInt();
+        int C = in.nextInt();
+
+        AutomateFini automate = new AutomateFini((byte)L,(byte)C);
+
+        if (in.hasNextLine()) {
+            in.nextLine();
+        }
+
+        for (int i = 0; i < L; i++) {
+            String row = in.nextLine();
+            automate.addLine(row);
+            System.err.println(row);
+
+        }
+        String myMove = "";
+        // Write an action using System.out.println()
+        // To debug: System.err.println("Debug messages...");
+        while(true && myMove != AutomateFini.LOOP) {
+            myMove = automate.benderAutomateMove();
+            System.out.println(myMove);
+        }
+    }
+}
+*/
