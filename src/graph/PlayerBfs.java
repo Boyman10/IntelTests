@@ -10,22 +10,36 @@ import java.math.*;
  **/
 class PlayerBfs {
 
-
-
     public static void main(String args[]) {
-        Scanner in = new Scanner(System.in);
+        Scanner in;
+
+        System.setIn(new ByteArrayInputStream("12\n23\n1\n".getBytes()));
+        in = new Scanner(System.in);
+
+
         int N = in.nextInt(); // the total number of nodes in the level, including the gateways
         int L = in.nextInt(); // the number of links
         int E = in.nextInt(); // the number of exit gateways
 
+        System.err.println("N : " + N + " L : " + L + " E : " + E);
+
         Graph myGraph = new Graph(N, L, E);
 
+        System.setIn(new ByteArrayInputStream("11\n6\n0\n9\n1\n2\n0\n1\n10\n1\n11\n5\n2\n3\n4\n5\n8\n9\n6\n7\n7\n8\n0\n6\n3\n4\n0\n2\n11\n7\n0\n8\n0\n4\n9\n10\n0\n5\n0\n7\n0\n3\n0\n10\n5\n6\n".getBytes()));
+        in = new Scanner(System.in);
+
         for (int i = 0; i < L; i++) {
+
             int N1 = in.nextInt(); // N1 and N2 defines a link between these nodes
             int N2 = in.nextInt();
 
-            myGraph.fillGraphV1(N1,N2);
+            System.err.println("N1 : " + N1 + " N2 : " + N2 );
+
+            myGraph.fillGraph2WV1(N1,N2);
         }
+
+        System.setIn(new ByteArrayInputStream("0\n".getBytes()));
+        in = new Scanner(System.in);
 
         for (int i = 0; i < E; i++) {
             int EI = in.nextInt(); // the index of a gateway node
@@ -35,10 +49,14 @@ class PlayerBfs {
         Bfs algo = new Bfs(N);
         algo.setGraph(myGraph.getGraphV1());
 
+
+        System.setIn(new ByteArrayInputStream("11\n".getBytes()));
+        in = new Scanner(System.in);
+
         // game loop
         while (true) {
 
-            int SI = in.nextInt(); // The index of the node on which the Skynet agent is positioned this turn
+            int SI = in.nextInt() ; // The index of the node on which the Skynet agent is positioned this turn
             int nextExit, nextNode = SI;
 
             // Do the math here ...
@@ -70,19 +88,16 @@ class PlayerBfs {
             // Write an action using System.out.println()
             // To debug: System.err.println("Debug messages...");
 
-
             // Example: 0 1 are the indices of the nodes you wish to sever the link between
             System.out.println(SI + " " + nextNode);
         }
     }
 }
 
-
+/*
 class Graph {
 
-    /**
-     * Constants
-     */
+
     public static final int MAX_NODES = 500;
     public static final int MIN_NODES = 2;
     public static final int MAX_LINKS = 1000;
@@ -90,22 +105,13 @@ class Graph {
     public static final int MIN_EXITS = 1;
     public static final int MAX_EXITS = 20;
 
-    /**
-     * Properties
-     */
+
     private int V;   // No. of vertices
     private int L; // Nb of links
     private ArrayList<Integer> exits;
 
     private List<List<Integer>> graphV1; //Adjacency Lists - ex : [[1, 2, 5], [0, 2, 5], [0, 1], [4, 5], [3, 5], [0, 1, 3, 4]]
 
-
-    /**
-     * Class constructor giving the nb of nodes, nb of links and nb of exits,
-     * @param nbNodes total nodes
-     * @param nbLinks total links
-     * @param nbExits total exits
-     */
     public Graph(int nbNodes, int nbLinks, int nbExits) {
 
         if (nbNodes >= MIN_NODES && nbNodes <= MAX_NODES && nbLinks <= MAX_LINKS
@@ -122,11 +128,6 @@ class Graph {
     }
 
 
-    /**
-     * Filling the graph one by one given the following
-     * @param srcNode source Node
-     * @param nextNode linked node
-     */
     public void fillGraphV1(int srcNode, int nextNode) {
 
         if (srcNode < V && srcNode >= 0 && nextNode < V && nextNode >= 0) {
@@ -156,11 +157,6 @@ class Graph {
     }
 
 
-
-    /**
-     * REtrieve the generated graph
-     * @return
-     */
     public List<List<Integer>> getGraphV1() {
 
         System.out.println(this.graphV1);
@@ -183,38 +179,21 @@ class Graph {
 
 class Bfs {
 
-    /**
-     * Properties
-     */
+
     private int V;   // No. of vertices
     private List<List<Integer>> graph; //Adjacency Lists
 
-    /**
-     * Class constructor
-     * initialize tree
-     * ie: [[1, 2, 5], [0, 2, 5], [0, 1], [4, 5], [3, 5], [0, 1, 3, 4]]
-     */
+
     public Bfs(int size) {
         V = size;
         graph = new ArrayList<>();
     }
 
-    /**
-     * Adding a node to the graph
-     *
-     * @param vertices
-     */
     public void addVertice(List<Integer> vertices) {
 
         graph.add(vertices);
     }
 
-    /**
-     * Given sourceNode, retrieves the route table so we can get the shortest path from any the sourceNode to any vertice
-     *
-     * @param int sourceNode
-     * @return routes
-     */
     public Hashtable routeMap(int sourceNode) {
 
         LinkedList<Integer> queue = new LinkedList<>();  // size of graph
@@ -254,11 +233,6 @@ class Bfs {
 
 
 
-    /**
-     * Retrieving the shortest path from a node to another one :
-     * @param int srcNode, int destNode
-     * @return path
-     */
     public ArrayList<Integer> shortestPath(int srcNode, int destNode) {
 
         ArrayList<Integer> path = new ArrayList<>();
@@ -286,3 +260,4 @@ class Bfs {
     }
 }
 
+*/

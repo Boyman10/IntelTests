@@ -49,6 +49,11 @@ public class Graph {
             graphV1 = new ArrayList<>();
             graphV2 = new Hashtable<>();
 
+            // Initialize GraphV1 with -1 values :
+            for(int i = 0;i<nbNodes;i++)
+                graphV1.add(new ArrayList<>());
+
+
             V = nbNodes;
 
         } else {
@@ -59,6 +64,8 @@ public class Graph {
 
     /**
      * Filling the graph one by one given the following
+     * This is one way linking version
+     * @see fillGraph2WV1 for 2 way linking
      * @param srcNode source Node
      * @param nextNode linked node
      */
@@ -90,6 +97,42 @@ public class Graph {
         }
     }
 
+    /**
+     * 2 way linking graph version
+     * @param srcNode source Node which can also be destination
+     * @param nextNode linked node which can be source as well
+     */
+    public void fillGraph2WV1(int srcNode, int nextNode) {
+
+        if (srcNode < V && srcNode >= 0 && nextNode < V && nextNode >= 0) {
+
+            ArrayList<Integer> nodes = new ArrayList<>();
+            ArrayList<Integer> destnodes = new ArrayList<>();
+
+            try {
+                System.out.println("Getting current array of src Node : " + srcNode);
+
+                nodes =  (ArrayList<Integer>) graphV1.get(srcNode);
+                destnodes = (ArrayList<Integer>) graphV1.get(nextNode);
+
+                // Adding dest to the array
+                nodes.add(nextNode);
+                // and src
+                destnodes.add(srcNode);
+
+            } catch (Exception e) {
+
+                e.printStackTrace();
+                System.err.println(e.getMessage());
+            }
+
+            graphV1.set(srcNode, nodes);
+            graphV1.set(nextNode, destnodes);
+
+        } else {
+            System.err.println("OUt of bound Node!!");
+        }
+    }
 
     /**
      * Filling the graph one by one given the following
@@ -131,7 +174,7 @@ public class Graph {
      */
     public List<List<Integer>> getGraphV1() {
 
-        System.out.println(this.graphV1);
+        System.out.println("THe graph : " + this.graphV1);
 
         return graphV1;
     }

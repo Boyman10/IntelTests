@@ -65,6 +65,7 @@ public class Bfs {
             Integer elt = queue.poll(); // retrieves and removes the head of the queue FIFO mode
             // Mark the current node as Visited
             visited.add(elt);
+            System.out.println("Adding elt to visited array " + elt);
 
             // loop throught neighbors of current node :
             for(Integer node : graph.get(elt)) {
@@ -73,7 +74,7 @@ public class Bfs {
                     routes.put(node,elt);
                     queue.add(node);
                     visited.add(node);
-                  //  System.out.println("new node added to stack ; " + node);
+                    System.out.println("new node added to stack ; " + node);
                 }
             }
 
@@ -113,11 +114,18 @@ public class Bfs {
 
         // Now the shortest path :
         int tmp = destNode;
+
+        System.out.println("Adding destNode : " + tmp);
         path.add(tmp);
 
-        while (tmp != srcNode) {
-            tmp = (int)routing.get(tmp);
-            path.add(tmp);
+        try {
+            while (tmp != srcNode) {
+                tmp = (int) routing.get(tmp);
+                path.add(tmp);
+            }
+        } catch (NullPointerException e) {
+            System.out.println("Routing table : " + routing + " & tmp = " + tmp);
+            e.printStackTrace();
         }
 
         // reverse it
