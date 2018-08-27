@@ -128,8 +128,13 @@ public class AutomateFini {
         xy[1] = (byte) (position[1] + directionMove.get(currentDirection)[1]);
         char here = nextElement(xy);
 
-        if (here != OBSTACLES[0] || (here == OBSTACLES[1] && breaker))
+        if (here != OBSTACLES[0] || (here == OBSTACLES[1] && breaker)) {
+
+            // Now update the position :
+            position = xy;
+
             return charToMove(currentDirection);
+        }
         else {
 
             if (inverted)
