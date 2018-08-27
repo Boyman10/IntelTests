@@ -111,6 +111,8 @@ public class AutomateFini {
                 position = getTeleportGate();
             else if (here == INIT)
                 return LOOP; // case back to init
+            else if (here == END)
+                return ""; // end of program
             else if (here != ' ')
                 currentDirection =  map[position[0]][position[1]]; // either S N E W
         }
