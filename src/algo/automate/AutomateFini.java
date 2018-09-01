@@ -32,8 +32,10 @@ public class AutomateFini {
     //******** STATES ***********//
     private boolean breaker = false;
     private boolean inverted = false;
+    private boolean force = false;
     private byte indexCurrentDirection = 0; // initial default direction
     private char currentDirection = 'S';
+    private char lastDirection = ' ';
 
     //**********MAP**************//
     private char[][] map; // the map where Bender goes
@@ -86,6 +88,25 @@ public class AutomateFini {
             position = locateElement(INIT);
         else {
 
+            lastDirection = currentDirection;
+
+            if (!force) {
+
+                if (antiPosition())
+                    return LOOP;
+
+                /*
+                indexCurrentDirection = 0;
+
+                if (inverted) {
+                    currentDirection = INV_DIRECTIONS[0];
+                }
+                else {
+                    currentDirection = DIRECTIONS[0];
+                }*/
+            }
+
+
             // do we have an element here ?
             char here = nextElement(position);
 
@@ -103,16 +124,18 @@ public class AutomateFini {
                     currentDirection = INV_DIRECTIONS[0];
                 }
             else if (here == BEER)
-                if (breaker)
-                    breaker = false;
-                else
-                    breaker = true;
+                breaker = !breaker;
             else if (here == TELEPORT)
                 position = getTeleportGate();
             else if (here == INIT)
                 return LOOP; // case back to init
-            else if (here != ' ')
-                currentDirection =  map[position[0]][position[1]]; // either S N E W
+            else if (here == END)
+                return ""; // end of program
+            else if (here != ' ') {
+                currentDirection = map[position[0]][position[1]]; // either S N E W
+                force = true;
+                indexCurrentDirection = 0;
+            }
         }
 
         return recursiveMove();
@@ -128,8 +151,13 @@ public class AutomateFini {
         xy[1] = (byte) (position[1] + directionMove.get(currentDirection)[1]);
         char here = nextElement(xy);
 
-        if (here != OBSTACLES[0] || (here == OBSTACLES[1] && breaker))
+        if (here != OBSTACLES[0] && ((here != OBSTACLES[1]) || breaker)) {
+
+            // Now update the position :
+            position = xy;
+
             return charToMove(currentDirection);
+        }
         else {
 
             if (inverted)
@@ -169,12 +197,14 @@ public class AutomateFini {
         byte[] pos = new byte[2];
 
         for(byte i = 0;i < map.length;i++) {
-            for(byte j=0;j < map[i].length;j++)
-                if(map[i][j] == elt) {
-                    pos[0] = i;
-                    pos[1] = j;
+            for(byte j = 0;j < map.length;j++)
+
+                if(map[j][i] == elt) {
+                    pos[0] = i; // x
+                    pos[1] = j; // y
                     return pos;
                 }
+
         }
 
         return null;
@@ -186,7 +216,7 @@ public class AutomateFini {
      * @return the element
      */
     private char nextElement(byte[] pos) {
-        return map[pos[0]][pos[1]];
+        return map[pos[1]][pos[0]];
     }
 
 
@@ -199,8 +229,8 @@ public class AutomateFini {
         byte[] pos = new byte[2];
 
         for(byte i = 0;i < map.length;i++) {
-            for(byte j=0;j < map[i].length;j++)
-                if(map[i][j] == TELEPORT && i != position[0] && j != position[1]) {
+            for(byte j=0;j < map.length;j++)
+                if(map[j][i] == TELEPORT && i != position[0] && j != position[1]) {
                     pos[0] = i;
                     pos[1] = j;
                     return pos;
@@ -209,6 +239,16 @@ public class AutomateFini {
 
         return null;
     }
+
+
+    private boolean antiPosition() {
+
+        if ((lastDirection == 'E' && currentDirection == 'W')
+                || (lastDirection == 'N' && currentDirection == 'S'))
+            return true;
+        return false;
+    }
+
 }
 
 /*
