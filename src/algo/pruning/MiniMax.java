@@ -7,16 +7,16 @@ import java.util.ArrayList;
  * @see https://fr.wikipedia.org/wiki/%C3%89lagage_alpha-b%C3%AAta
  * @eee https://www.youtube.com/watch?v=QTw8VJzRW6g&t=0s&list=PL6Xpj9I5qXYGhsvMWM53ZLfwUInzvYWsm&index=18
  */
-public class MiniMax implements MiniMaxInterface {
+public abstract class MiniMax implements MiniMaxInterface {
 
     public static final int MIN_INFINITE = 1000;
     public static final int MAX_INFINITE = -1000;
 
-    private int depth = 0;
-    private boolean endOfGame = false;
+    protected int depth = 0;
+    protected boolean endOfGame = false;
 
-    private ArrayList<Move> moves;
-    private int currentIndexMove;
+    protected ArrayList<Move> moves;
+    protected int currentIndexMove;
 
     /**
      * Class constructor
@@ -26,6 +26,7 @@ public class MiniMax implements MiniMaxInterface {
 
     }
 
+    public abstract void play();
 
     @Override
     public int min() {
@@ -36,20 +37,42 @@ public class MiniMax implements MiniMaxInterface {
 
         int min = MIN_INFINITE;
 
-        for(Move move : moves.get(currentIndexMove)) {
+        for(Move move : moves) {
 
+            move.simulateMove();
+            depth--;
+            int val = max();
+
+            min = (val < min)? val : min;
+
+            move.cancelMove();
         }
 
-        return 0;
+        return min;
     }
 
     @Override
     public int max() {
-        return 0;
+        if (depth == 0 || endOfGame) {
+            return eval();
+        }
+
+        int max = MAX_INFINITE;
+
+        for(Move move : moves) {
+
+            move.simulateMove();
+            depth--;
+            int val = min();
+
+            max = (val > max)? val : max;
+
+            move.cancelMove();
+        }
+
+        return max;
     }
 
     @Override
-    public int eval() {
-        return 0;
-    }
+    public abstract int eval();
 }
