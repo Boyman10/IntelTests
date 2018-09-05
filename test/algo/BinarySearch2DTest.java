@@ -1,6 +1,9 @@
 package algo;
 
+import algo.binarysearch.BinarySearch2D;
 import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 
 class BinarySearch2DTest {
 
