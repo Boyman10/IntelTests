@@ -31,6 +31,8 @@ public class Labyrinth {
 
     int currentPos[] = new int[2];
 
+    int nbRows, nbCols;
+
     // our map : LINES & COLUMNS
     private Hashtable<Integer, ArrayList<Character>> labyrinth = new Hashtable<>();
 
@@ -42,7 +44,9 @@ public class Labyrinth {
      * Graph details
      */
 
-    WeightedGraph myGraph;
+    private WeightedGraph myGraph = new WeightedGraph();
+    // Position and directions int the order from last to current node - the integer is in 1D to be converted to 2D
+    private Hashtable<Integer,ArrayList<Direction>> weights = new Hashtable<>();
 
     /**
      * Initialize the map
@@ -58,6 +62,9 @@ public class Labyrinth {
             labyrinth.put(i,new ArrayList<>());
             this.cpt_max = A;
         }
+
+        this.nbRows = R;
+        this.nbCols = C;
     }
 
     /*
@@ -110,4 +117,41 @@ public class Labyrinth {
         return pos;
     }
 
+
+    public void setCurrentPos(int[] cur) {
+        this.currentPos = cur;
+    }
+
+    /**
+     * The map must be initialized first
+     */
+    public void setStartPos() {
+
+        this.startPos = localizeItem(START);
+    }
+
+    /**
+     * Let's build our weighted graph
+     */
+    public void buildGraph() {
+
+        // 4 paths or less for each turn LEFT, RIGHT, UP, DOWN
+        // fillGraph(int srcNode, int nextNode, int weight) the srcNode is the currentPosition
+        int srcNode =
+
+    }
+
+    /**
+     * Transform a 2D position into a 1D one
+     * ex : 2 lines and 4 columns
+     * @param l 1
+     * @param 3
+     * @return 7
+     */
+    public int getFrom2D(int l, int r) {
+
+        // l x 4 + 3 -> 7
+        // ex : l = 2, r = 2, (3 lines, 4 columns) 2x4 + 2 = 11
+        return (l * this.nbCols + r );
+    }
 }
