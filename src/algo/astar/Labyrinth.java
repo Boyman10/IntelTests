@@ -1,9 +1,12 @@
 package algo.astar;
 
+import graph.WeightedGraph;
+
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Hashtable;
+
 
 /**
  * Implementing BFS, A* for a specific labyrinth 2D game
@@ -34,7 +37,19 @@ public class Labyrinth {
     // Max turns to get back to initial position
     private int cpt_max;
 
-    // initialize the map
+
+    /**
+     * Graph details
+     */
+
+    WeightedGraph myGraph;
+
+    /**
+     * Initialize the map
+     * @param R row
+     * @param C columns
+     * @param A max time
+     */
     public Labyrinth(int R, int C, int A) {
 
         // R >= 10 && <= 100 && C >= 20 && C <= 200 && A >= 1 && A <= 100
@@ -60,11 +75,39 @@ public class Labyrinth {
      * and update the weights (a weight can be represented by  number and a direction ! - opposite in case of reverse !).
      */
 
+    /**
+     * Updating the map one line by one
+     * @param row a row represented by a string
+     * @param line the line with its content
+     */
     public void updateLabyrinth(String row, int line) {
 
-        this.labyrinth.put(line, Arrays.asList(row));
+        Character[] str = row.chars().mapToObj(c -> (char)c).toArray(Character[]::new);
+
+        this.labyrinth.put(line,new ArrayList<>(Arrays.asList(str)));
 
     }
 
+    /**
+     * Localizing an item in the map :
+     * the item must be unique ! @TODO : implement anyMatch instead of forEach
+     * @param item to get the position
+     * @return the position
+     */
+    private int[] localizeItem(char item){
+
+        int[] pos = new int[2];
+
+        labyrinth.forEach((index,myArray) ->
+
+            myArray.forEach((v) -> {
+                if (v.equals(item)) {
+                    pos[0] = index;
+                    pos[1] = myArray.indexOf(v);
+                }
+            })
+                );
+        return pos;
+    }
 
 }
