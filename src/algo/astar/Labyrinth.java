@@ -135,23 +135,54 @@ public class Labyrinth {
      */
     public void buildGraph() {
 
-        // 4 paths or less for each turn LEFT, RIGHT, UP, DOWN
-        // fillGraph(int srcNode, int nextNode, int weight) the srcNode is the currentPosition
-        int srcNode =
+        // first time :
+        if (this.currentPos == null) {
+
+            setStartPos();
+            this.myGraph.fillGraph(getFrom2DArray(this.startPos),getFrom2DArray(this.startPos),0);
+            this.currentPos = this.startPos;
+
+        } else {
+
+            // 4 paths or less for each turn LEFT, RIGHT, UP, DOWN
+            // fillGraph(int srcNode, int nextNode, int weight) the srcNode is the currentPosition
+            int srcNode = getFrom2DArray(this.currentPos);
+
+            int nextNode = longestPathInMap();
+
+        }
 
     }
 
     /**
      * Transform a 2D position into a 1D one
      * ex : 2 lines and 4 columns
-     * @param l 1
-     * @param 3
-     * @return 7
+     * @param l row position
+     * @param r col position
+     * @return position 1D
      */
-    public int getFrom2D(int l, int r) {
+    private int getFrom2D(int l, int r) {
 
-        // l x 4 + 3 -> 7
-        // ex : l = 2, r = 2, (3 lines, 4 columns) 2x4 + 2 = 11
-        return (l * this.nbCols + r );
+        return (l * (this.nbCols) + r);
+    }
+
+    private int getFrom2DArray(int [] arr) {
+
+        return (arr[0] * (this.nbCols) + arr[1]);
+    }
+    private int longestPathInMap() {
+
+        int[] longest = new int[2];
+
+        int dist = 0;
+
+        for (Direction dir : Direction.values()) {
+
+            while ()
+        }
+
+
+        return getFrom2D(longest[0],longest[1]);
+
     }
 }
