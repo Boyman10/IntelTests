@@ -6,6 +6,7 @@ import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Hashtable;
+import java.util.List;
 
 
 /**
@@ -26,15 +27,15 @@ public class Labyrinth {
     /**
      * Properties
      */
-    int startPos[] = new int[2];
-    int commandPos[] = new int[2];
+    private int startPos[] = new int[2];
+    private int commandPos[] = new int[2];
 
-    int currentPos[] = new int[2];
+    private int currentPos[] = new int[2];
 
-    int nbRows, nbCols;
+    private int nbRows, nbCols;
 
-    // our map : LINES & COLUMNS
-    private Hashtable<Integer, ArrayList<Character>> labyrinth = new Hashtable<>();
+    // our map : POSITION - CHARACTER
+    private Hashtable<Integer,Character> labyrinth = new Hashtable<>();
 
     // Max turns to get back to initial position
     private int cpt_max;
@@ -45,8 +46,7 @@ public class Labyrinth {
      */
 
     private WeightedGraph myGraph = new WeightedGraph();
-    // Position and directions int the order from last to current node - the integer is in 1D to be converted to 2D
-    private Hashtable<Integer,ArrayList<Direction>> weights = new Hashtable<>();
+
 
     /**
      * Initialize the map
@@ -57,9 +57,9 @@ public class Labyrinth {
     public Labyrinth(int R, int C, int A) {
 
         // R >= 10 && <= 100 && C >= 20 && C <= 200 && A >= 1 && A <= 100
-        for (int i = 0;i < R; i++) {
+        for (int i = 0;i < C*R; i++) {
 
-            labyrinth.put(i,new ArrayList<>());
+            labyrinth.put(i,NOT_SCANNED);
             this.cpt_max = A;
         }
 
@@ -90,8 +90,10 @@ public class Labyrinth {
     public void updateLabyrinth(String row, int line) {
 
         Character[] str = row.chars().mapToObj(c -> (char)c).toArray(Character[]::new);
-
-        this.labyrinth.put(line,new ArrayList<>(Arrays.asList(str)));
+        for (int i = 0; i < str.length; i++) {
+            this.labyrinth.put(line + i,str[i]);
+        }
+       // this.labyrinth.put(line,new ArrayList<>(Arrays.asList(str)));
 
     }
 
@@ -101,19 +103,18 @@ public class Labyrinth {
      * @param item to get the position
      * @return the position
      */
-    private int[] localizeItem(char item){
+    private int localizeItem(char item){
 
-        int[] pos = new int[2];
+        int pos = -1;
 
-        labyrinth.forEach((index,myArray) ->
+        for(int i = 0; i < labyrinth.size();i ++)
+        {
+                    if (labyrinth.get(i).equals(item)) {
+                        pos = i;
+                    }
+        }
 
-            myArray.forEach((v) -> {
-                if (v.equals(item)) {
-                    pos[0] = index;
-                    pos[1] = myArray.indexOf(v);
-                }
-            })
-                );
+
         return pos;
     }
 
@@ -127,7 +128,7 @@ public class Labyrinth {
      */
     public void setStartPos() {
 
-        this.startPos = localizeItem(START);
+        this.startPos = setTo2D(localizeItem(START));
     }
 
     /**
@@ -147,8 +148,7 @@ public class Labyrinth {
             // 4 paths or less for each turn LEFT, RIGHT, UP, DOWN
             // fillGraph(int srcNode, int nextNode, int weight) the srcNode is the currentPosition
             int srcNode = getFrom2DArray(this.currentPos);
-
-            int nextNode = longestPathInMap();
+            List nextNode = longestPathInMap(); // with direction ex: 2RIGHT then the weight ex : 3
 
         }
 
@@ -161,28 +161,69 @@ public class Labyrinth {
      * @param r col position
      * @return position 1D
      */
-    private int getFrom2D(int l, int r) {
+    public int getFrom2D(int l, int r) {
 
         return (l * (this.nbCols) + r);
     }
 
-    private int getFrom2DArray(int [] arr) {
+    public int getFrom2DArray(int [] arr) {
 
         return (arr[0] * (this.nbCols) + arr[1]);
     }
-    private int longestPathInMap() {
 
-        int[] longest = new int[2];
+    /**
+     * Get the longest path with no wall given the visible map and current position
+     * @return a position along with direction and the length size of List = 2 as we concatenate the position and direction
+     */
+    private List longestPathInMap() {
+
+        List longest = new ArrayList();
+
+        int thePos = getFrom2DArray(this.currentPos);
+        longest.add(thePos);
+        longest.add(thePos);
+        longest.add(0);
 
         int dist = 0;
 
-        for (Direction dir : Direction.values()) {
-
-            while ()
+        // Left direction :
+        while (labyrinth.get(thePos).equals(EMPTY)) {
+            thePos = getNext(Direction.LEFT, thePos);
+            dist++;
         }
 
 
-        return getFrom2D(longest[0],longest[1]);
+        return ;
 
+    }
+
+    /**
+     * Transform a 1D position into a 2D one
+     * @param position 52
+     * @return [2,5]
+     */
+    public int[] setTo2D(int position) {
+
+        int pos[] = new int[2];
+        pos[0] = position % this.nbCols; // ex : 2
+        pos[1] = position / this.nbRows;
+
+        return pos;
+    }
+
+
+    public int getNext(Direction dir, int pos) {
+
+        if (dir == Direction.LEFT) {
+            return pos - 1
+        } else if (dir == Direction.RIGHT) {
+            return pos + 1;
+        } else if (dir == Direction.UP) {
+            return pos - this.nbCols;
+        } else {
+            return pos + this.nbCols;
+        }
+
+        return pos;
     }
 }
