@@ -34,7 +34,7 @@ public class Labyrinth {
 
     private int nbRows, nbCols;
 
-    // our map : POSITION - CHARACTER
+    // our map : 1D POSITION - CHARACTER
     private Hashtable<Integer,Character> labyrinth = new Hashtable<>();
 
     // Max turns to get back to initial position
@@ -174,8 +174,9 @@ public class Labyrinth {
     /**
      * Get the longest path with no wall given the visible map and current position
      * @return a position along with direction and the length size of List = 2 as we concatenate the position and direction
+     * it is a 3 elements list of int and Object
      */
-    private List longestPathInMap() {
+    public List longestPathInMap() {
 
         List longest = new ArrayList();
 
@@ -192,8 +193,57 @@ public class Labyrinth {
             dist++;
         }
 
+        longest.set(1,thePos);
+        longest.set(2,dist + Direction.LEFT.toString());
 
-        return ;
+        int tmp = dist;
+        dist = 0;
+        thePos = getFrom2DArray(this.currentPos);
+
+        // right direction :
+        while (labyrinth.get(thePos).equals(EMPTY)) {
+            thePos = getNext(Direction.RIGHT, thePos);
+            dist++;
+        }
+
+        if (tmp < dist) {
+            tmp = dist;
+            longest.set(1,thePos);
+            longest.set(2,dist + Direction.RIGHT.toString());
+        }
+
+        thePos = getFrom2DArray(this.currentPos);
+
+        dist = 0;
+
+        // top direction :
+        while (labyrinth.get(thePos).equals(EMPTY)) {
+            thePos = getNext(Direction.UP, thePos);
+            dist++;
+        }
+
+        if (tmp < dist) {
+            tmp = dist;
+            longest.set(1,thePos);
+            longest.set(2,dist + Direction.UP.toString());
+        }
+
+        thePos = getFrom2DArray(this.currentPos);
+
+        // top direction :
+        while (labyrinth.get(thePos).equals(EMPTY)) {
+            thePos = getNext(Direction.DOWN, thePos);
+            dist++;
+        }
+
+        if (tmp < dist) {
+            tmp = dist;
+            longest.set(1,thePos);
+            longest.set(2,dist + Direction.DOWN.toString());
+        }
+
+
+        return longest;
 
     }
 
@@ -225,5 +275,12 @@ public class Labyrinth {
         }
 
         return pos;
+    }
+
+    @Override
+    public String toString() {
+        return "Labyrinth{" +
+                "labyrinth=" + labyrinth +
+                '}';
     }
 }
