@@ -24,7 +24,7 @@ class LabyrinthTest {
     void updateLabyrinth() {
         lab = new Labyrinth(3, 5, 0);
 
-        String str = "";
+        String str = "{14=?, 13=?, 12=?, 11=?, 10=?, 9=?, 8=?, 7=?, 6=?, 5=?, 4=?, 3=?, 2=?, 1=#, 0=?}";
 
         lab.updateLabyrinth("?????",0);
         lab.updateLabyrinth("# T #",1);
@@ -38,8 +38,13 @@ class LabyrinthTest {
     void longestPathInMap() {
 
         lab = new Labyrinth(3, 5, 0);
+        lab.updateLabyrinth("?????",0);
+        lab.updateLabyrinth("# T #",1);
+        lab.updateLabyrinth("?????",2);
 
+        String str = "";
 
+        assertEquals(str,lab.toString());
 
 
     }

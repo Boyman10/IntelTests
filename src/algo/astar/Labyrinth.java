@@ -265,7 +265,7 @@ public class Labyrinth {
     public int getNext(Direction dir, int pos) {
 
         if (dir == Direction.LEFT) {
-            return pos - 1
+            return pos - 1;
         } else if (dir == Direction.RIGHT) {
             return pos + 1;
         } else if (dir == Direction.UP) {
@@ -273,14 +273,10 @@ public class Labyrinth {
         } else {
             return pos + this.nbCols;
         }
-
-        return pos;
     }
 
     @Override
     public String toString() {
-        return "Labyrinth{" +
-                "labyrinth=" + labyrinth +
-                '}';
+        return labyrinth.toString() ;
     }
 }
