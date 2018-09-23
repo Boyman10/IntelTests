@@ -42,9 +42,12 @@ class LabyrinthTest {
         lab.updateLabyrinth("# T #",1);
         lab.updateLabyrinth("?????",2);
 
-        String str = "";
+        lab.setStartPos();
+        lab.setCurrentPos(lab.getStartPos());
 
-        assertEquals(str,lab.toString());
+        String str = "761LEFT"; // 7 6 1LEFT
+
+        assertEquals(str,lab.longestPathInMap());
 
 
     }

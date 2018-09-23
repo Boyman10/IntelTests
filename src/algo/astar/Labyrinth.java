@@ -131,6 +131,10 @@ public class Labyrinth {
         this.startPos = setTo2D(localizeItem(START));
     }
 
+    public int[] getStartPos() {
+        return this.startPos;
+    }
+
     /**
      * Let's build our weighted graph
      */
@@ -176,14 +180,14 @@ public class Labyrinth {
      * @return a position along with direction and the length size of List = 2 as we concatenate the position and direction
      * it is a 3 elements list of int and Object
      */
-    public List longestPathInMap() {
+    public List<String> longestPathInMap() {
 
-        List longest = new ArrayList();
+        List<String> longest = new ArrayList<>();
 
         int thePos = getFrom2DArray(this.currentPos);
-        longest.add(thePos);
-        longest.add(thePos);
-        longest.add(0);
+        longest.add(String.valueOf(thePos)); // origin
+        longest.add(String.valueOf(thePos)); // destination
+        longest.add(String.valueOf(0)); // distance + direction
 
         int dist = 0;
 
@@ -193,7 +197,7 @@ public class Labyrinth {
             dist++;
         }
 
-        longest.set(1,thePos);
+        longest.set(1,String.valueOf(thePos));
         longest.set(2,dist + Direction.LEFT.toString());
 
         int tmp = dist;
@@ -208,7 +212,7 @@ public class Labyrinth {
 
         if (tmp < dist) {
             tmp = dist;
-            longest.set(1,thePos);
+            longest.set(1,String.valueOf(thePos));
             longest.set(2,dist + Direction.RIGHT.toString());
         }
 
@@ -224,7 +228,7 @@ public class Labyrinth {
 
         if (tmp < dist) {
             tmp = dist;
-            longest.set(1,thePos);
+            longest.set(1,String.valueOf(thePos));
             longest.set(2,dist + Direction.UP.toString());
         }
 
@@ -238,7 +242,7 @@ public class Labyrinth {
 
         if (tmp < dist) {
             tmp = dist;
-            longest.set(1,thePos);
+            longest.set(1,String.valueOf(thePos));
             longest.set(2,dist + Direction.DOWN.toString());
         }
 
